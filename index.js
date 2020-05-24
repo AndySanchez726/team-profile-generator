@@ -41,7 +41,18 @@ function Prompt() {
                     })
                     .then(({office}) => {
                         this.manager.push(new Manager(employee, id, email, office))
-                        console.log(this.manager[0])
+                        console.log(this.manager[0].getRole())
+                    })
+            } else if (role === "Engineer") {
+                inquirer
+                    .prompt({
+                        type: 'text',
+                        name: 'github',
+                        message: "What is the Engineer's Github username?"
+                    })
+                    .then(({github}) => {
+                        this.engineer.push(new Engineer(employee, id, email, github))
+                        console.log(this.engineer[0].getRole())
                     })
             }
         })
