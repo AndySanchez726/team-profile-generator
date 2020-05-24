@@ -4,46 +4,48 @@ const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
 function Prompt() {
-    this.manager;
-    this.engineer;
-    this.intern;
+    this.manager = [];
+    this.engineer = [];
+    this.intern = [];
 
     inquirer
-        .prompt({
-            type:'list',
+        .prompt([
+        {
+            type: 'list',
             name: 'role',
-            message: 'What is the team members role?',
+            message:"What is the employee's role?",
             choices: ['Manager', 'Engineer', 'Intern']
-        })
-        .then(({role}) => {
-            if (role === 'Manager') {
+        },
+        {
+            type:'text',
+            name: 'employee',
+            message: "What is the Employee's name?"
+        },
+        {
+            type:'text',
+            name: 'id',
+            message: "What is the employee's ID number?"
+        },
+        {
+            type: 'text',
+            name: 'email',
+            message: "What is the employee's email?"
+        }])
+        .then(({employee, id, email, role}) => {
+            if (role === "Manager") {
                 inquirer
-                    .prompt([{
+                    .prompt({
                         type:'text',
-                        name:'name',
-                        message:"What is the Manager's name?"
-                    },
-                    {
-                        type:'text',
-                        name:'id',
-                        message:"What is the Manager's employee ID number?"
-                    },
-                    {
-                        type:'text',
-                        name:'email',
-                        message:"What is the Manager's email address?"
-                    },
-                    {
-                        type: 'text',
-                        name:'office',
+                        name: 'office',
                         message:"What is the Manager's office number?"
-                    }])
-                    .then(({name,id,email,office}) => {
-                        this.manager = new Manager(name, id, email, office)
-                        console.log(this.manager)
+                    })
+                    .then(({office}) => {
+                        this.manager.push(new Manager(employee, id, email, office))
+                        console.log(this.manager[0])
                     })
             }
         })
+
 }
 
 Prompt();
