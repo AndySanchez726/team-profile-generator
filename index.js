@@ -54,6 +54,17 @@ function Prompt() {
                         this.engineer.push(new Engineer(employee, id, email, github))
                         console.log(this.engineer[0].getRole())
                     })
+            } else if (role === 'Intern') {
+                inquirer
+                    .prompt({
+                        type:'text',
+                        name:'school',
+                        message: "What is the Intern's school?"
+                    })
+                    .then(({school}) => {
+                        this.intern.push(new Intern(employee, id, email, school))
+                        console.log(this.intern[0].getRole())
+                    })
             }
         })
 
