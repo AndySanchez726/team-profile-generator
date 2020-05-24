@@ -4,7 +4,10 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
-let employeeArr = [];
+let manager = [];
+let engineer = [];
+let intern = [];
+let employeeArr = [manager, engineer, intern];
 
 function Prompt() {
 
@@ -46,7 +49,7 @@ function Prompt() {
                         default: false
                     }])
                     .then(({office, anotherEntry}) => {
-                        employeeArr.push(new Manager(employee, id, email, office))
+                        manager.push(new Manager(employee, id, email, office))
                         console.log(employeeArr)
                         if (anotherEntry) {
                             return Prompt();
@@ -66,7 +69,7 @@ function Prompt() {
                         default: false
                     }])
                     .then(({github, anotherEntry}) => {
-                        employeeArr.push(new Engineer(employee, id, email, github))
+                        engineer.push(new Engineer(employee, id, email, github))
                         console.log(employeeArr)
                         if (anotherEntry) {
                             return Prompt();
@@ -86,7 +89,7 @@ function Prompt() {
                         default: false
                     }])
                     .then(({school, anotherEntry}) => {
-                        employeeArr.push(new Intern(employee, id, email, school))
+                        intern.push(new Intern(employee, id, email, school))
                         console.log(employeeArr)
                         if (anotherEntry) {
                             return Prompt();
