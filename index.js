@@ -3,15 +3,17 @@ const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
+const generatePage = require('./src/page-template');
+const writeFile = require('./src/generate-site')
 
 let manager = [];
 let engineer = [];
 let intern = [];
-let employeeArr = [manager, engineer, intern];
+let employeeArr = {manager, engineer, intern};
 
 function Prompt() {
-
-    inquirer
+    
+    return inquirer
         .prompt([
         {
             type: 'list',
@@ -36,7 +38,7 @@ function Prompt() {
         }])
         .then(({employee, id, email, role}) => {
             if (role === "Manager") {
-                inquirer
+                return inquirer
                     .prompt([{
                         type:'text',
                         name: 'office',
@@ -50,13 +52,13 @@ function Prompt() {
                     }])
                     .then(({office, anotherEntry}) => {
                         manager.push(new Manager(employee, id, email, office))
-                        console.log(employeeArr)
+                        // console.log(employeeArr)
                         if (anotherEntry) {
                             return Prompt();
                         }
                     })
             } else if (role === "Engineer") {
-                inquirer
+                return inquirer
                     .prompt([{
                         type: 'text',
                         name: 'github',
@@ -70,13 +72,13 @@ function Prompt() {
                     }])
                     .then(({github, anotherEntry}) => {
                         engineer.push(new Engineer(employee, id, email, github))
-                        console.log(employeeArr)
+                        // console.log(employeeArr)
                         if (anotherEntry) {
                             return Prompt();
                         }
                     })
             } else if (role === 'Intern') {
-                inquirer
+                 return inquirer
                     .prompt([{
                         type:'text',
                         name:'school',
@@ -90,15 +92,21 @@ function Prompt() {
                     }])
                     .then(({school, anotherEntry}) => {
                         intern.push(new Intern(employee, id, email, school))
-                        console.log(employeeArr)
+                        // console.log(employeeArr)
                         if (anotherEntry) {
                             return Prompt();
                         }
                     })
             }
-
         })
+};
 
-}
 
-Prompt();
+
+Prompt()
+    .then(teamData => {
+        return generatePage(employeeArr)
+    })
+    .then(pageHTML => {
+        return writeFile(pageHTML)
+    })
